@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 // ======== Screens
 import WelcomeScreen from "../../screens/intro/WelcomeScreen";
 import AccessCodeRequestScreen from "../../screens/auth/AccessCodeRequestScreen";
+import AccessCodeConfirmationScreen from "../../screens/auth/AccessCodeConfirmationScreen";
 // ======== Storage
 import { selectCurrentAppState } from "../../store/slices/appSlice";
 // =================================
@@ -34,6 +35,13 @@ const Navigator = () => {
         }}
         name="AccessCodeRequestScreen"
         component={AccessCodeRequestScreen}
+      />
+      <StackNavigator.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="AccessCodeConfirmationScreen"
+        component={AccessCodeConfirmationScreen}
       />
     </StackNavigator.Navigator>
   );

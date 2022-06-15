@@ -1,20 +1,37 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import theme from "../../../constants/styles/theme.constant";
-export default function SolidButton({ onPress, text, style, disabled }) {
+import * as Haptics from "expo-haptics";
+
+export default function KeyPadButton({
+  onPress,
+  text,
+  style,
+  disabled,
+  value,
+}) {
+  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <View
         style={[
           styles.button,
           {
-            backgroundColor: disabled ? theme.GRAY : theme.PRIMARY,
             borderColor: disabled ? theme.GRAY : theme.PRIMARY,
+            backgroundColor: disabled ? theme.GRAY_LIGHT : theme.WHITE,
           },
           style,
         ]}
       >
-        <Text style={styles.buttonText}>{text}</Text>
+        <Text
+          style={[
+            styles.buttonText,
+            { color: disabled ? theme.WHITE : theme.PRIMARY },
+          ]}
+        >
+          {text}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -22,19 +39,17 @@ export default function SolidButton({ onPress, text, style, disabled }) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: theme.PRIMARY,
-    color: theme.WHITE,
-    borderRadius: 12,
+    borderRadius: 8,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
-    height: 53,
+    borderWidth: 1,
+    height: 62,
+    width: 62,
   },
   buttonText: {
-    color: theme.WHITE,
-    fontFamily: theme.FONT_SEMIBOLD,
+    color: theme.PRIMARY,
+    fontFamily: theme.FONT_MEDIUM,
     fontSize: 15,
     textAlign: "center",
   },

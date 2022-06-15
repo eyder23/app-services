@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Flag from "react-native-round-flags";
 import { FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 // import { SafeAreaView } from "react-native";
 // ======== Custom Imports =========
 // ======== Styles =========
-import tw from "../../libs/tailwind/tailwind";
+import { setCurrentUser } from "../../store/slices/userSlice";
 import theme from "../../constants/styles/theme.constant";
 import themeStyle from "../../styles/general/theme.style";
 import useUser from "../../api/client/AccessControlClient";
@@ -18,65 +24,66 @@ import SolidButton from "../../components/common/button/SolidButton";
 import ErrorText from "../../components/common/text/ErrorText";
 // =================================
 
-const AccessCodeRequestScreen = () => {
+const AccessCodeConfirmationScreen = ({ route, navigation }) => {
   // ======== Init Definitions =========
-  const navigation = useNavigation();
-  const { generateCodeAuth } = useUser();
-  const [phoneNumber, setPhoneNumber] = useState("");
+  let userIn = null;
+  if (route && route.params) {
+    userIn = route.params.user;
+  }
+  const dispatch = useDispatch();
+  const { validateCodeAuth, userLoginWithCustomToken } = useUser();
+  const [genCode, setGenCode] = useState("");
   const [actionProcess, setActionProcess] = useState(false);
-  const [actionLabel, setActionLabel] = useState("Siguiente");
+  const [actionLabel, setActionLabel] = useState("Validar");
   const [errorLabel, setErrorLabel] = useState("");
+  const [user, setUser] = useState(null);
   // ======== End Definitions =========
 
   // ======== Init Functions =========
   const handlePressKeyPadButton = (key) => {
-    if (phoneNumber.length < 10) {
-      setPhoneNumber(phoneNumber + key);
+    if (genCode.length < 6) {
+      setGenCode(genCode + key);
     }
   };
   const handlePressKeyDeletePadButton = () => {
-    setPhoneNumber(phoneNumber.slice(0, -1));
+    setGenCode(genCode.slice(0, -1));
   };
 
   const handlePressNextButton = async () => {
     setErrorLabel("");
-    if (phoneNumber && phoneNumber.length === 10) {
+    if (genCode && genCode.length === 6) {
       setActionProcess(true);
       setActionLabel("Procesando Datos");
       try {
         let user = {
+          genCode: genCode,
           countryCodePhoneNumber: "57",
-          phoneNumber: phoneNumber,
+          phoneNumber: userIn.phoneNumber,
+          platformOS: Platform.OS,
         };
-        const response = await generateCodeAuth(user);
+        const response = await validateCodeAuth(user);
         if (response.success) {
           setActionProcess(false);
-          setActionLabel("Siguiente");
-          setPhoneNumber("");
-          navigation.navigate("AccessCodeConfirmationScreen", {
-            user: user,
-          });
+          setActionLabel("Validar");
+          setGenCode("");
+          const initialToken = response.data;
+          const respLogin = await userLoginWithCustomToken(initialToken);
+          console.log(respLogin);
+          if (respLogin.success) {
+          }
         } else {
-          const { code, messageDeveloper, messageUser } = respService.apiError;
+          const { code, messageDeveloper, messageUser } = response.apiError;
           setErrorLabel(messageUser);
           setActionProcess(false);
-          setActionLabel("Siguiente");
+          setActionLabel("Validar");
         }
       } catch (err) {
         setActionProcess(false);
-        setActionLabel("Siguiente");
+        setActionLabel("Validar");
         setErrorLabel(err.message);
       }
     }
   };
-
-  // useEffect(() => {
-  //   const generateCodeConfirmationFunction = async () => {
-
-  //   };
-  //   generateCodeConfirmationFunction();
-  // }, []);
-
   // ======== End Functions =========
 
   return (
@@ -86,46 +93,72 @@ const AccessCodeRequestScreen = () => {
       <View style={[themeStyle.safeAreaWrapper, themeStyle.containerEsp]}>
         <View>
           <Text style={[themeStyle.pageTitle, { marginTop: 50 }]}>
-            Ingrese a Homely
+            Ingrese el Código de Acceso
           </Text>
           <Text style={[themeStyle.paragraph, { marginTop: 10 }]}>
-            Nosotros le enviaremos un código de acceso a su número de teléfono a
-            través de{"  "}
+            Lo hemos enviado al número de teléfono{" "}
+            <Text style={themeStyle.span}>
+              {" "}
+              {userIn.countryCodePhoneNumber} {userIn.phoneNumber}
+            </Text>{" "}
+            través de{" "}
             <Text style={themeStyle.span}>
               <FontAwesome name="whatsapp" size={15} color={theme.ACCENT} />{" "}
               WhatsApp
             </Text>
           </Text>
         </View>
-        <View style={styles.phoneNumberContainer}>
-          <Flag code="CO" style={styles.flag} />
-          <Text style={[themeStyle.phoneNumber, { color: theme.GRAY }]}>
-            +57
-          </Text>
-          <Text style={[themeStyle.phoneNumber, { marginLeft: 10 }]}>
-            {/* 3208095046 */}
-            {phoneNumber}
-          </Text>
+        <View style={styles.accesCodeNumbersContainer}>
+          <FontAwesome
+            name="circle"
+            size={32}
+            color={genCode.length > 0 ? theme.ACCENT : theme.GRAY}
+          />
+          <FontAwesome
+            name="circle"
+            size={32}
+            color={genCode.length > 1 ? theme.ACCENT : theme.GRAY}
+          />
+          <FontAwesome
+            name="circle"
+            size={32}
+            color={genCode.length > 2 ? theme.ACCENT : theme.GRAY}
+          />
+          <FontAwesome
+            name="circle"
+            size={32}
+            color={genCode.length > 3 ? theme.ACCENT : theme.GRAY}
+          />
+          <FontAwesome
+            name="circle"
+            size={32}
+            color={genCode.length > 4 ? theme.ACCENT : theme.GRAY}
+          />
+          <FontAwesome
+            name="circle"
+            size={32}
+            color={genCode.length > 5 ? theme.ACCENT : theme.GRAY}
+          />
         </View>
         <View style={{ marginTop: 30 }}>
           <View style={[styles.keyPadButtonContainer]}>
             <KeyPadButton
               text="1"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(1);
               }}
             />
             <KeyPadButton
               text="2"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(2);
               }}
             />
             <KeyPadButton
               text="3"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(3);
               }}
@@ -134,21 +167,21 @@ const AccessCodeRequestScreen = () => {
           <View style={[styles.keyPadButtonContainer, { marginTop: 24 }]}>
             <KeyPadButton
               text="4"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(4);
               }}
             />
             <KeyPadButton
               text="5"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(5);
               }}
             />
             <KeyPadButton
               text="6"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(6);
               }}
@@ -157,21 +190,21 @@ const AccessCodeRequestScreen = () => {
           <View style={[styles.keyPadButtonContainer, { marginTop: 24 }]}>
             <KeyPadButton
               text="7"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(7);
               }}
             />
             <KeyPadButton
               text="8"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(8);
               }}
             />
             <KeyPadButton
               text="9"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(9);
               }}
@@ -185,7 +218,7 @@ const AccessCodeRequestScreen = () => {
           >
             <KeyPadButton
               text="0"
-              disabled={phoneNumber.length === 10}
+              disabled={genCode.length === 6}
               onPress={() => {
                 handlePressKeyPadButton(0);
               }}
@@ -205,7 +238,7 @@ const AccessCodeRequestScreen = () => {
             onPress={() => {
               handlePressNextButton();
             }}
-            disabled={phoneNumber.length !== 10 || actionProcess}
+            disabled={genCode.length !== 6 || actionProcess}
           />
         </View>
         <View>
@@ -220,12 +253,15 @@ const AccessCodeRequestScreen = () => {
   );
 };
 
-export default AccessCodeRequestScreen;
+export default AccessCodeConfirmationScreen;
 
 const styles = StyleSheet.create({
-  phoneNumberContainer: {
+  accesCodeNumbersContainer: {
     marginTop: 40,
     flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 70,
+    marginRight: 70,
   },
   keyPadButtonContainer: {
     marginLeft: 40,

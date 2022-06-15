@@ -2,10 +2,11 @@ export default {
   // Colors
   PRIMARY: "#051A3A",
   SECONDARY: "#478F08",
-  ACCENT: "#68B109",
+  ACCENT: "#85DF00",
   BLACK: "#121212",
   WHITE: "#FFFFFF",
-  GRAY: "#6D6D6D",
+  GRAY: "#ACACAC",
+  GRAY_LIGHT: "#E0E0E0", //B6B6B6
   ERROR: "#EA6651",
   PRIMARY_TEXT_COLOR: "#121212",
   // Fonts

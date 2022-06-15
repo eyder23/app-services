@@ -1,20 +1,31 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import theme from "../../../constants/styles/theme.constant";
-export default function SolidButton({ onPress, text, style, disabled }) {
+import { Feather } from "@expo/vector-icons";
+
+export default function KeyPadButtonIcon({
+  onPress,
+  text,
+  iconName,
+  style,
+  disabled,
+}) {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <View
         style={[
           styles.button,
           {
-            backgroundColor: disabled ? theme.GRAY : theme.PRIMARY,
             borderColor: disabled ? theme.GRAY : theme.PRIMARY,
           },
           style,
         ]}
       >
-        <Text style={styles.buttonText}>{text}</Text>
+        <Feather
+          name={iconName}
+          size={26}
+          color={disabled ? theme.GRAY : theme.PRIMARY}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -22,20 +33,20 @@ export default function SolidButton({ onPress, text, style, disabled }) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: theme.PRIMARY,
-    color: theme.WHITE,
-    borderRadius: 12,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
-    height: 53,
+    height: 62,
+    width: 62,
   },
   buttonText: {
-    color: theme.WHITE,
+    color: theme.GRAY,
     fontFamily: theme.FONT_SEMIBOLD,
-    fontSize: 15,
+    fontSize: 20,
     textAlign: "center",
+  },
+  icon: {
+    textAlign: "center",
+    color: theme.ACCENT,
   },
 });

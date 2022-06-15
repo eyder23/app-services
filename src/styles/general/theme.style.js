@@ -2,19 +2,51 @@ import theme from "../../constants/styles/theme.constant";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  // Init Container styles
   container: {
     flex: 1,
     backgroundColor: theme.WHITE,
+  },
+  containerEsp: {
+    flex: 1,
+    backgroundColor: theme.WHITE,
+    marginTop: 10,
+    borderRadius: 20,
   },
   safeAreaWrapper: {
     paddingHorizontal: 25,
     paddingBottom: 25,
   },
+  // End Container styles
+  // Init Typography Styles
   titleApp: {
     fontFamily: theme.FONT_BOLD,
-    fontSize: 32,
+    fontSize: 30,
     color: theme.PRIMARY_TEXT_COLOR,
   },
+  pageTitle: {
+    fontFamily: theme.FONT_SEMIBOLD,
+    color: theme.PRIMARY_TEXT_COLOR,
+    fontSize: 20,
+  },
+  paragraph: {
+    fontFamily: theme.FONT_REGULAR,
+    color: theme.PRIMARY_TEXT_COLOR,
+    fontSize: 15,
+  },
+  captions: {
+    fontFamily: theme.FONT_REGULAR,
+    color: theme.GRAY,
+    fontSize: 14,
+  },
+  span: {
+    fontFamily: theme.FONT_REGULAR,
+    color: theme.ACCENT,
+    fontSize: 14,
+  },
+
+  // End Typography Styles
+
   subTitleApp: {
     fontFamily: theme.FONT_SEMIBOLD,
     fontSize: 20,
@@ -29,6 +61,12 @@ export default StyleSheet.create({
     fontFamily: theme.FONT_REGULAR,
     fontSize: 18,
     color: theme.GRAY,
+  },
+  phoneNumber: {
+    fontFamily: theme.FONT_REGULAR,
+    fontSize: 20,
+    marginLeft: 4,
+    color: theme.PRIMARY_TEXT_COLOR,
   },
   generalText: {
     fontFamily: theme.FONT_REGULAR,
@@ -51,7 +89,8 @@ export default StyleSheet.create({
   },
   cardText: {
     fontFamily: theme.FONT_REGULAR,
-    fontSize: 14,
+    fontSize: 15,
+    color: theme.GRAY,
   },
   cardImageText: {
     fontFamily: theme.FONT_BOLD,
