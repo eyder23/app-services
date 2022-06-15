@@ -31,7 +31,8 @@ const AccessCodeConfirmationScreen = ({ route, navigation }) => {
     userIn = route.params.user;
   }
   const dispatch = useDispatch();
-  const { validateCodeAuth, userLoginWithCustomToken } = useUser();
+  const { validateCodeAuth, userLoginWithCustomToken, getUserByUid } =
+    useUser();
   const [genCode, setGenCode] = useState("");
   const [actionProcess, setActionProcess] = useState(false);
   const [actionLabel, setActionLabel] = useState("Validar");
@@ -70,6 +71,44 @@ const AccessCodeConfirmationScreen = ({ route, navigation }) => {
           const respLogin = await userLoginWithCustomToken(initialToken);
           console.log(respLogin);
           if (respLogin.success) {
+            const cleanData = JSON.stringify(respLogin.data.user);
+            const cleanDataObject = JSON.parse(cleanData);
+            const { lastLoginAt, createdAt, uid, stsTokenManager } =
+              cleanDataObject;
+            const { accessToken, apiKey, expirationTime, refreshToken } =
+              stsTokenManager;
+            let hasPersonalDataCompleted = false;
+            const respUser = await getUserByUid(uid);
+            let name = null;
+            let email = null;
+            if (respUser && respUser.success && respUser.data) {
+              if (
+                typeof respUser.data.name !== "undefined" &&
+                typeof respUser.data.email !== "undefined"
+              ) {
+                hasPersonalDataCompleted = true;
+                name = respUser.data.name;
+                email = respUser.data.email;
+              }
+            }
+
+            dispatch(
+              setCurrentUser({
+                displayName: name,
+                lastLoginAt: lastLoginAt,
+                createdAt: createdAt,
+                uid: uid,
+                email: email,
+                initialToken: initialToken,
+                accessToken: accessToken,
+                apiKey: apiKey,
+                expirationTime: expirationTime,
+                refreshToken: refreshToken,
+                hasPersonalDataCompleted: hasPersonalDataCompleted,
+                countryCodePhoneNumber: userIn.countryCodePhoneNumber,
+                phoneNumber: userIn.phoneNumber,
+              })
+            );
           }
         } else {
           const { code, messageDeveloper, messageUser } = response.apiError;

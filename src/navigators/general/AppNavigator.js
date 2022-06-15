@@ -11,38 +11,61 @@ import { useSelector } from "react-redux";
 import WelcomeScreen from "../../screens/intro/WelcomeScreen";
 import AccessCodeRequestScreen from "../../screens/auth/AccessCodeRequestScreen";
 import AccessCodeConfirmationScreen from "../../screens/auth/AccessCodeConfirmationScreen";
+import PersonalInformationScreen from "../../screens/identity/PersonalInformationScreen";
 // ======== Storage
 import { selectCurrentAppState } from "../../store/slices/appSlice";
+import {
+  selectCurrentUser,
+  setCurrentUser,
+} from "../../store/slices/userSlice";
 // =================================
 
 const StackNavigator = createNativeStackNavigator();
 
 const Navigator = () => {
   const currentAppState = useSelector(selectCurrentAppState);
+  const currentUser = useSelector(selectCurrentUser);
+  console.log("currentUser", currentUser?.uid);
 
   return (
     <StackNavigator.Navigator>
-      <StackNavigator.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="WelcomeScreen"
-        component={WelcomeScreen}
-      />
-      <StackNavigator.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="AccessCodeRequestScreen"
-        component={AccessCodeRequestScreen}
-      />
-      <StackNavigator.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="AccessCodeConfirmationScreen"
-        component={AccessCodeConfirmationScreen}
-      />
+      <>
+        {currentUser == null ? (
+          <>
+            <StackNavigator.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+            />
+            <StackNavigator.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="AccessCodeRequestScreen"
+              component={AccessCodeRequestScreen}
+            />
+            <StackNavigator.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="AccessCodeConfirmationScreen"
+              component={AccessCodeConfirmationScreen}
+            />
+          </>
+        ) : (
+          <>
+            <StackNavigator.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="PersonalInformationScreen"
+              component={PersonalInformationScreen}
+            />
+          </>
+        )}
+      </>
     </StackNavigator.Navigator>
   );
 };
