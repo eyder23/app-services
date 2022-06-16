@@ -1,17 +1,20 @@
+import {
+  StyleSheet,
+  StatusBar,
+} from "react-native";
 import theme from "../../constants/styles/theme.constant";
-import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   // Init Container styles
   container: {
     flex: 1,
-    backgroundColor: theme.WHITE,
+    paddingTop: StatusBar.currentHeight,
   },
   containerEsp: {
-    flex: 1,
     backgroundColor: theme.WHITE,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     marginTop: 10,
-    borderRadius: 20,
   },
   safeAreaWrapper: {
     paddingHorizontal: 25,
