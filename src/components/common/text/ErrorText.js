@@ -9,6 +9,7 @@ export default function ErrorText({ text, style }) {
 const styles = StyleSheet.create({
   text: {
     fontSize: 13,
+    marginTop: 5,
     fontFamily: theme.FONT_MEDIUM,
     color: theme.ERROR,
   },
