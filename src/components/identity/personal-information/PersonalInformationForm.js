@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   View,
 } from "react-native";
@@ -12,26 +10,35 @@ import { MaskedTextInput } from "react-native-mask-text";
 import { Formik } from "formik";
 import * as yup from "yup";
 // ======== Custom Imports =========
+// ======== Functions ===============
+import { getCurrentUser } from "../../../utils/functions/AppStatus";
+import { validateDate } from "../../../utils/functions/AppDate";
+// ======== Services ===============
+import useIdentityClient from "../../../api/client/IdentityClient";
 // ======== Styles =========
-import tw from "../../../libs/tailwind/tailwind";
 import theme from "../../../constants/styles/theme.constant";
 import themeStyle from "../../../styles/general/theme.style";
 // ======== Components =========
 import SolidButton from "../../../components/common/button/SolidButton";
 import GroupDropDownInputForm from "../../../components/common/dropdown/GroupDropDownInputForm";
 import TextInput from "../../../components/common/input/TextInput";
-import TextButton from "../../../components/common/button/TextButton";
+import LogOutButton from "../../common/button/LogOutButton";
 import ErrorText from "../../../components/common/text/ErrorText";
 // =================================
 
 // ======== Init Form Validations =========
+const registrationDateLenght = 10;
 const personalInformationValidationSchema = yup.object().shape({
   documentNumber: yup
     .string()
     .required("Documento de identificación es requerido"),
   firstName: yup.string().required("Nombres son requeridos"),
   surname: yup.string().required("Apellidos son requeridos"),
-  registrationDate: yup.string().required("Fecha de nacimiento es requerida"),
+  registrationDate: yup
+    .string()
+    .required("Fecha de nacimiento es requerida")
+    .min(registrationDateLenght, `Fecha de nacimiento no es valida`)
+    .max(registrationDateLenght, `Fecha de nacimiento no es valida`),
   email: yup
     .string()
     .email("Por favor ingrese un correo válido")
@@ -47,15 +54,17 @@ const businessInformationValidationSchema = yup.object().shape({
     .email("Por favor ingrese un correo válido")
     .required("Correo electrónico es requerido"),
 });
-let defValidationSchema = personalInformationValidationSchema;
+
 // ======== End Form Validations =========
+const mainButtonLabel = "Siguiente";
+// ======================================
 
 const PersonalInformationForm = () => {
   // ======== Init Definitions =========
   const navigation = useNavigation();
-  const [schema, updateSchema] = React.useState(
-    personalInformationValidationSchema
-  );
+  const currentUser = getCurrentUser();
+  const { updatePerson } = useIdentityClient();
+  const [schema, updateSchema] = useState(personalInformationValidationSchema);
   const [documentTypes, setDocumentTypes] = useState([
     { label: "CC", value: "CC" },
     { label: "NIT", value: "NIT" },
@@ -63,7 +72,11 @@ const PersonalInformationForm = () => {
   ]);
   const formikRef = useRef(null);
   const [documentType, setDocumentType] = useState("CC");
-  const [documentNumber, setDocumentNumber] = useState(null);
+
+  // ======== Standard Definitions =========
+  const [actionProcess, setActionProcess] = useState(false);
+  const [actionLabel, setActionLabel] = useState(mainButtonLabel);
+  const [errorLabel, setErrorLabel] = useState("");
   // ======== End Definitions =========
 
   // ======== Init Functions =========
@@ -76,6 +89,50 @@ const PersonalInformationForm = () => {
       updateSchema(businessInformationValidationSchema);
     }
   }, [documentType]);
+
+  const handleSubmit = async (values) => {
+    setErrorLabel("");
+    setActionProcess(true);
+    setActionLabel("Procesando Datos");
+    try {
+      let flagContinue = true;
+      if (documentType === "CC" || documentType === "OTRO") {
+        // Formating registration date
+        let formatedDate = values.registrationDate;
+        formatedDate = formatedDate.replace(
+          /^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/,
+          "$2$1$3"
+        );
+        if (validateDate(formatedDate)) {
+          values.registrationDate = formatedDate;
+        } else {
+          flagContinue = false;
+          formikRef.current?.setFieldValue("registrationDate", "");
+          setActionProcess(false);
+          setActionLabel(mainButtonLabel);
+          setErrorLabel("Formato fecha de nacimiento es incorrecto");
+        }
+      }
+      if (flagContinue) {
+        // Setting Id Person
+        values._id = currentUser?._idPerson;
+        const response = await updatePerson(values);
+        if (response.success) {
+          setErrorLabel("");
+          navigation.navigate("PersonalAddressScreen");
+        } else {
+          const { code, messageDeveloper, messageUser } = response.apiError;
+          setErrorLabel(messageUser);
+          setActionProcess(false);
+          setActionLabel(mainButtonLabel);
+        }
+      }
+    } catch (err) {
+      setActionProcess(false);
+      setActionLabel(mainButtonLabel);
+      setErrorLabel(err.message);
+    }
+  };
 
   // ======== End Functions =========
   return (
@@ -94,6 +151,7 @@ const PersonalInformationForm = () => {
       }}
       onSubmit={(values) => {
         console.log(JSON.stringify(values));
+        handleSubmit(values);
       }}
     >
       {({
@@ -333,12 +391,13 @@ const PersonalInformationForm = () => {
             </View>
           </View>
           <View style={[{ marginTop: 20 }]}>
+            <ErrorText text={errorLabel} />
             <SolidButton
-              text="Siguiente"
+              text={actionLabel}
               onPress={handleSubmit}
-              disabled={!isValid}
+              disabled={!isValid || actionProcess}
             />
-            <TextButton text="Cerrar Sesión" />
+            <LogOutButton text="Cerrar Sesión" />
           </View>
           <View style={{ height: 40, backgroundColor: theme.WHITE }}></View>
         </View>

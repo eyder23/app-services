@@ -7,26 +7,22 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSelector } from "react-redux";
 
 // ======== Custom Imports =========
+// ======== Functions ===============
+import { getCurrentUser } from "../../utils/functions/AppStatus";
 // ======== Screens
 import WelcomeScreen from "../../screens/intro/WelcomeScreen";
 import AccessCodeRequestScreen from "../../screens/auth/AccessCodeRequestScreen";
 import AccessCodeConfirmationScreen from "../../screens/auth/AccessCodeConfirmationScreen";
 import PersonalInformationScreen from "../../screens/identity/PersonalInformationScreen";
-// ======== Storage
-import { selectCurrentAppState } from "../../store/slices/appSlice";
-import {
-  selectCurrentUser,
-  setCurrentUser,
-} from "../../store/slices/userSlice";
-// =================================
+import PersonalAddressScreen from "../../screens/identity/PersonalAddressScreen";
+// ======== Screens
 
 const StackNavigator = createNativeStackNavigator();
 
 const Navigator = () => {
-  const currentAppState = useSelector(selectCurrentAppState);
-  const currentUser = useSelector(selectCurrentUser);
+  const currentUser = getCurrentUser();
   console.log("currentUser", currentUser?.uid);
-
+ 
   return (
     <StackNavigator.Navigator>
       <>
@@ -62,6 +58,13 @@ const Navigator = () => {
               }}
               name="PersonalInformationScreen"
               component={PersonalInformationScreen}
+            />
+            <StackNavigator.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="PersonalAddressScreen"
+              component={PersonalAddressScreen}
             />
           </>
         )}

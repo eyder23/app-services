@@ -12,11 +12,17 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 // import { SafeAreaView } from "react-native";
 // ======== Custom Imports =========
-// ======== Styles =========
+// ======== Functions ===============
+import {
+  getCurrentUser,
+  getUserToUpdate,
+} from "../../utils/functions/AppStatus";
+// ======== Services ===============
 import { setCurrentUser } from "../../store/slices/userSlice";
+import useUser from "../../api/client/AccessControlClient";
+// ======== Styles =========
 import theme from "../../constants/styles/theme.constant";
 import themeStyle from "../../styles/general/theme.style";
-import useUser from "../../api/client/AccessControlClient";
 // ======== Components =========
 import KeyPadButton from "../../components/common/button/KeyPadButton";
 import KeyPadButtonIcon from "../../components/common/button/KeyPadButtonIcon";
@@ -64,12 +70,9 @@ const AccessCodeConfirmationScreen = ({ route, navigation }) => {
         };
         const response = await validateCodeAuth(user);
         if (response.success) {
-          setActionProcess(false);
-          setActionLabel("Validar");
-          setGenCode("");
           const initialToken = response.data;
           const respLogin = await userLoginWithCustomToken(initialToken);
-          console.log(respLogin);
+          // console.log(respLogin);
           if (respLogin.success) {
             const cleanData = JSON.stringify(respLogin.data.user);
             const cleanDataObject = JSON.parse(cleanData);
@@ -81,7 +84,9 @@ const AccessCodeConfirmationScreen = ({ route, navigation }) => {
             const respUser = await getUserByUid(uid);
             let name = null;
             let email = null;
+            let _idPerson = null;
             if (respUser && respUser.success && respUser.data) {
+              _idPerson = respUser?.data?.person;
               if (
                 typeof respUser.data.name !== "undefined" &&
                 typeof respUser.data.email !== "undefined"
@@ -92,22 +97,28 @@ const AccessCodeConfirmationScreen = ({ route, navigation }) => {
               }
             }
 
+            setActionProcess(false);
+            setActionLabel("Validar");
+            setGenCode("");
             dispatch(
-              setCurrentUser({
-                displayName: name,
-                lastLoginAt: lastLoginAt,
-                createdAt: createdAt,
-                uid: uid,
-                email: email,
-                initialToken: initialToken,
-                accessToken: accessToken,
-                apiKey: apiKey,
-                expirationTime: expirationTime,
-                refreshToken: refreshToken,
-                hasPersonalDataCompleted: hasPersonalDataCompleted,
-                countryCodePhoneNumber: userIn.countryCodePhoneNumber,
-                phoneNumber: userIn.phoneNumber,
-              })
+              setCurrentUser(
+                getUserToUpdate(getCurrentUser, {
+                  _idPerson: _idPerson,
+                  displayName: name,
+                  lastLoginAt: lastLoginAt,
+                  createdAt: createdAt,
+                  uid: uid,
+                  email: email,
+                  initialToken: initialToken,
+                  accessToken: accessToken,
+                  apiKey: apiKey,
+                  expirationTime: expirationTime,
+                  refreshToken: refreshToken,
+                  hasPersonalDataCompleted: hasPersonalDataCompleted,
+                  countryCodePhoneNumber: userIn.countryCodePhoneNumber,
+                  phoneNumber: userIn.phoneNumber,
+                })
+              )
             );
           }
         } else {

@@ -6,7 +6,7 @@ import axios from "axios";
 const generateCodeAuth = async (user) => {
   let response = null;
   try {
-    const postRequest = {
+    const postRequest = { 
       serviceProvider: "META",
       channel: "WHATSAPP",
       type: "AUTHORIZATION_CODE_ACCESS",
