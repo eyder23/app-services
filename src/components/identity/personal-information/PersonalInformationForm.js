@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  StyleSheet,
-  Text,
-  StatusBar,
-  View,
-} from "react-native";
+import { StyleSheet, Text, StatusBar, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaskedTextInput } from "react-native-mask-text";
 import { Formik } from "formik";
@@ -138,7 +133,7 @@ const PersonalInformationForm = () => {
   return (
     <Formik
       innerRef={formikRef}
-      validateOnMount={false}
+      validateOnMount={true}
       validationSchema={schema}
       initialValues={{
         documentType: "",
@@ -195,7 +190,7 @@ const PersonalInformationForm = () => {
                 <GroupDropDownInputForm
                   name="documentType"
                   labelDropdown="Documento: "
-                  placeholderDropdown="Tipo"
+                  placeholder={documentType}
                   itemsDropDown={documentTypes}
                   setItemsDropDown={setDocumentTypes}
                   valueDropdown={documentType}
@@ -215,11 +210,13 @@ const PersonalInformationForm = () => {
                   onChangeText={handleChange("documentNumber")}
                   onBlur={handleBlur("documentNumber")}
                   value={values.documentNumber}
+                  style={
+                    touched.documentNumber && errors.documentNumber
+                      ? { borderColor: theme.ERROR }
+                      : { borderColor: theme.GRAY }
+                  }
                 />
               </View>
-              {touched.documentNumber && errors.documentNumber && (
-                <ErrorText text={errors.documentNumber} />
-              )}
             </View>
           </View>
 
@@ -250,10 +247,12 @@ const PersonalInformationForm = () => {
                     onChangeText={handleChange("firstName")}
                     onBlur={handleBlur("firstName")}
                     value={values.firstName}
+                    style={
+                      touched.firstName && errors.firstName
+                        ? { borderColor: theme.ERROR }
+                        : { borderColor: theme.GRAY }
+                    }
                   />
-                  {touched.firstName && errors.firstName && (
-                    <ErrorText text={errors.firstName} />
-                  )}
                 </View>
               </View>
               <View style={[{ marginTop: 20 }]}>
@@ -281,10 +280,12 @@ const PersonalInformationForm = () => {
                     onChangeText={handleChange("surname")}
                     onBlur={handleBlur("surname")}
                     value={values.surname}
+                    style={
+                      touched.surname && errors.surname
+                        ? { borderColor: theme.ERROR }
+                        : { borderColor: theme.GRAY }
+                    }
                   />
-                  {touched.surname && errors.surname && (
-                    <ErrorText text={errors.surname} />
-                  )}
                 </View>
               </View>
               <View style={[{ marginTop: 20 }]}>
@@ -312,7 +313,12 @@ const PersonalInformationForm = () => {
                         text
                       );
                     }}
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      touched.registrationDate && errors.registrationDate
+                        ? { borderColor: theme.ERROR }
+                        : { borderColor: theme.GRAY },
+                    ]}
                     returnKeyType="done"
                     keyboardType="numeric"
                     name="registrationDate"
@@ -320,9 +326,6 @@ const PersonalInformationForm = () => {
                     onBlur={handleBlur("registrationDate")}
                     value={values.registrationDate}
                   />
-                  {touched.registrationDate && errors.registrationDate && (
-                    <ErrorText text={errors.registrationDate} />
-                  )}
                 </View>
               </View>
             </>
@@ -353,6 +356,11 @@ const PersonalInformationForm = () => {
                     onChangeText={handleChange("businessName")}
                     onBlur={handleBlur("businessName")}
                     value={values.businessName}
+                    style={
+                      touched.businessName && errors.businessName
+                        ? { borderColor: theme.ERROR }
+                        : { borderColor: theme.GRAY }
+                    }
                   />
                   {touched.businessName && errors.businessName && (
                     <ErrorText text={errors.businessName} />
@@ -384,10 +392,12 @@ const PersonalInformationForm = () => {
                 onChangeText={handleChange("email")}
                 onBlur={handleBlur("email")}
                 value={values.email}
+                style={
+                  touched.email && errors.email
+                    ? { borderColor: theme.ERROR }
+                    : { borderColor: theme.GRAY }
+                }
               />
-              {touched.email && errors.email && (
-                <ErrorText text={errors.email} />
-              )}
             </View>
           </View>
           <View style={[{ marginTop: 20 }]}>

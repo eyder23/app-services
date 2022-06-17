@@ -1,8 +1,9 @@
 export default {
   // Colors
-  PRIMARY: "#051A3A",
+  PRIMARY: "#102443",
   SECONDARY: "#478F08",
-  ACCENT: "#85DF00",
+  ACCENT: "#457CCD",
+  LIGHT: "#85DF00",
   BLACK: "#121212",
   WHITE: "#FFFFFF",
   GRAY: "#ACACAC",

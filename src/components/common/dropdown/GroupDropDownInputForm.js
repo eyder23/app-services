@@ -9,6 +9,7 @@ export default function GroupDropDownInputForm({
   setItemsDropDown,
   valueDropdown,
   setValueDropdown,
+  placeholder
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -16,6 +17,7 @@ export default function GroupDropDownInputForm({
       <DropDownPicker
         listMode="SCROLLVIEW"
         itemSeparator={true}
+        placeholder={placeholder}
         open={open}
         setOpen={setOpen}
         value={valueDropdown}

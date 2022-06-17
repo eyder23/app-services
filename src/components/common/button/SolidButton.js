@@ -22,7 +22,6 @@ export default function SolidButton({ onPress, text, style, disabled }) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: theme.PRIMARY,
     color: theme.WHITE,
     borderRadius: 12,
     flexDirection: "row",

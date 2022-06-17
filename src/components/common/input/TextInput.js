@@ -28,7 +28,7 @@ export default function TextInputForm({
       onChangeText={onChangeText}
       onBlur={onBlur}
       value={value}
-      style={[tw`flex-1`, styles.inputStyle]}
+      style={[tw`flex-1`, styles.inputStyle, style]}
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
       editable={editable}
@@ -40,14 +40,6 @@ export default function TextInputForm({
 }
 
 const styles = StyleSheet.create({
-  labelStyle: {
-    fontSize: 12.8,
-    fontFamily: theme.FONT_MEDIUM,
-    color: "#1B2C4F",
-    marginBottom: 5,
-    paddingLeft: 10,
-    paddingBottom: 2,
-  },
   inputStyle: {
     height: 50,
     fontSize: 16,

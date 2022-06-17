@@ -44,7 +44,7 @@ export default StyleSheet.create({
   },
   span: {
     fontFamily: theme.FONT_REGULAR,
-    color: theme.ACCENT,
+    color: theme.LIGHT,
     fontSize: 14,
   },
 
