@@ -24,6 +24,7 @@ import ErrorText from "../../components/common/text/ErrorText";
 const AccessCodeConfirmationComponent = ({ userIn }) => {
   // ======== Init Definitions =========
   const dispatch = useDispatch();
+   const currentUser = getCurrentUser();
   const { validateCodeAuth, userLoginWithCustomToken, getUserByUid } =
     useUser();
   const [genCode, setGenCode] = useState("");

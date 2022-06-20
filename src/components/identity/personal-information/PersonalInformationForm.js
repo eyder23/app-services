@@ -4,11 +4,16 @@ import { useNavigation } from "@react-navigation/native";
 import { MaskedTextInput } from "react-native-mask-text";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useDispatch } from "react-redux";
 // ======== Custom Imports =========
 // ======== Functions ===============
-import { getCurrentUser } from "../../../utils/functions/AppStatus";
+import {
+  getCurrentUser,
+  getUserToUpdate,
+} from "../../../utils/functions/AppStatus";
 import { validateDate } from "../../../utils/functions/AppDate";
 // ======== Services ===============
+import { setCurrentUser } from "../../../store/slices/userSlice";
 import useIdentityClient from "../../../api/client/IdentityClient";
 // ======== Styles =========
 import theme from "../../../constants/styles/theme.constant";
@@ -56,6 +61,7 @@ const mainButtonLabel = "Siguiente";
 
 const PersonalInformationForm = () => {
   // ======== Init Definitions =========
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const currentUser = getCurrentUser();
   const { updatePerson } = useIdentityClient();
@@ -69,7 +75,7 @@ const PersonalInformationForm = () => {
   const [documentType, setDocumentType] = useState("CC");
 
   // ======== Standard Definitions =========
-  const [actionProcess, setActionProcess] = useState(false);
+  const [actionProcess, setActionProcess] = useState(true);
   const [actionLabel, setActionLabel] = useState(mainButtonLabel);
   const [errorLabel, setErrorLabel] = useState("");
   // ======== End Definitions =========
@@ -113,7 +119,21 @@ const PersonalInformationForm = () => {
         values._id = currentUser?._idPerson;
         const response = await updatePerson(values);
         if (response.success) {
+          dispatch(
+            setCurrentUser(
+              getUserToUpdate(currentUser, {
+                personalInformation: 1,
+                email: values.email,
+                displayName: values.firstName
+                  ? values.firstName
+                  : values.businessName,
+              })
+            )
+          );
+          formikRef.current?.setFieldValue("registrationDate", "");
           setErrorLabel("");
+          setActionLabel(mainButtonLabel);
+          setActionProcess(false);
           navigation.navigate("PersonalAddressScreen");
         } else {
           const { code, messageDeveloper, messageUser } = response.apiError;
@@ -128,6 +148,10 @@ const PersonalInformationForm = () => {
       setErrorLabel(err.message);
     }
   };
+
+  useEffect(() => {
+    setActionProcess(false);
+  }, []);
 
   // ======== End Functions =========
   return (

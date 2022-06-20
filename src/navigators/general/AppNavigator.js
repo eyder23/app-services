@@ -21,7 +21,7 @@ const StackNavigator = createNativeStackNavigator();
 
 const Navigator = () => {
   const currentUser = getCurrentUser();
-  console.log("currentUser", currentUser?.uid);
+  console.log("currentUser", currentUser);
  
   return (
     <StackNavigator.Navigator>

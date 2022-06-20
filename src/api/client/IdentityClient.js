@@ -4,7 +4,6 @@ import { auth } from "../../libs/firebase/firebase";
 import axios from "axios";
 
 const updatePerson = async (person) => {
-  console.log(person)
   let response = null;
   try {
     await axios

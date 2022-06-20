@@ -18,7 +18,7 @@ export default function KeyPadButton({
         style={[
           styles.button,
           {
-            borderColor: disabled ? theme.PRIMARY : theme.PRIMARY,
+            borderColor: disabled ? theme.GRAY : theme.GRAY,
             backgroundColor: disabled ? theme.GRAY_LIGHT : theme.WHITE,
           },
           style,
@@ -27,7 +27,7 @@ export default function KeyPadButton({
         <Text
           style={[
             styles.buttonText,
-            { color: disabled ? theme.WHITE : theme.PRIMARY },
+            { color: disabled ? theme.GRAY : theme.GRAY },
           ]}
         >
           {text}

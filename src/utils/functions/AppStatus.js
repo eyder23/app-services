@@ -18,40 +18,52 @@ export function getCurrentUser() {
 export function getUserToUpdate(currentUser, user) {
   const defUser = {
     _idPerson:
-      user?._idPerson !== null ? user._idPerson : currentUser?._idPerson,
+      user?._idPerson === undefined ? currentUser._idPerson : user?._idPerson,
     displayName:
-      user?.displayName !== null ? user.displayName : currentUser?.displayName,
+      user?.displayName === undefined
+        ? currentUser?.displayName
+        : user.displayName,
     lastLoginAt:
-      user?.lastLoginAt !== null ? user.lastLoginAt : currentUser?.lastLoginAt,
+      user?.lastLoginAt === undefined
+        ? currentUser?.lastLoginAt
+        : user.lastLoginAt,
     createdAt:
-      user?.createdAt !== null ? user.createdAt : currentUser?.createdAt,
-    uid: user?.uid !== null ? user.uid : currentUser?.uid,
-    email: user?.email !== null ? user.email : currentUser?.email,
+      user?.createdAt === undefined ? currentUser?.createdAt : user.createdAt,
+    uid: user?.uid === undefined ? currentUser?.uid : user.uid,
+    email: user?.email === undefined ? currentUser?.email : user.email,
     initialToken:
-      user?.initialToken !== null
-        ? user.initialToken
-        : currentUser?.initialToken,
+      user?.initialToken === undefined
+        ? currentUser?.initialToken
+        : user.initialToken,
     accessToken:
-      user?.accessToken !== null ? user.accessToken : currentUser?.accessToken,
-    apiKey: user?.apiKey !== null ? user.apiKey : currentUser?.apiKey,
+      user?.accessToken === undefined
+        ? currentUser?.accessToken
+        : user.accessToken,
+    apiKey: user?.apiKey === undefined ? currentUser?.apiKey : user.apiKey,
     expirationTime:
-      user?.expirationTime !== null
-        ? user.expirationTime
-        : currentUser?.expirationTime,
+      user?.expirationTime === undefined
+        ? currentUser?.expirationTime
+        : user.expirationTime,
     refreshToken:
-      user?.refreshToken !== null
-        ? user.refreshToken
-        : currentUser?.refreshToken,
+      user?.refreshToken === undefined
+        ? currentUser?.refreshToken
+        : user.refreshToken,
     hasPersonalDataCompleted:
-      user?.hasPersonalDataCompleted !== null
-        ? user.hasPersonalDataCompleted
-        : currentUser?.hasPersonalDataCompleted,
+      user?.hasPersonalDataCompleted === undefined
+        ? currentUser?.hasPersonalDataCompleted
+        : user.hasPersonalDataCompleted,
     countryCodePhoneNumber:
-      user?.countryCodePhoneNumber !== null
-        ? user.countryCodePhoneNumber
-        : currentUser?.countryCodePhoneNumber,
+      user?.countryCodePhoneNumber === undefined
+        ? currentUser?.countryCodePhoneNumber
+        : user.countryCodePhoneNumber,
     phoneNumber:
-      user?.phoneNumber !== null ? user.phoneNumber : currentUser?.phoneNumber,
+      user?.phoneNumber === undefined
+        ? currentUser?.phoneNumber
+        : user.phoneNumber,
+    personalInformation:
+      user?.personalInformation === undefined
+        ? currentUser?.personalInformation
+        : user.personalInformation,
   };
   return defUser;
 }

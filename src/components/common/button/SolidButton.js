@@ -8,13 +8,20 @@ export default function SolidButton({ onPress, text, style, disabled }) {
         style={[
           styles.button,
           {
-            backgroundColor: disabled ? theme.GRAY : theme.PRIMARY,
             borderColor: disabled ? theme.GRAY : theme.PRIMARY,
+            backgroundColor: disabled ? theme.GRAY_LIGHT : theme.PRIMARY,
           },
           style,
         ]}
       >
-        <Text style={styles.buttonText}>{text}</Text>
+        <Text
+          style={[
+            styles.buttonText,
+            { color: disabled ? theme.GRAY : theme.WHITE },
+          ]}
+        >
+          {text}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -22,7 +29,6 @@ export default function SolidButton({ onPress, text, style, disabled }) {
 
 const styles = StyleSheet.create({
   button: {
-    color: theme.WHITE,
     borderRadius: 12,
     flexDirection: "row",
     justifyContent: "center",
@@ -30,9 +36,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     height: 53,
+    borderWidth: 1,
   },
   buttonText: {
-    color: theme.WHITE,
     fontFamily: theme.FONT_SEMIBOLD,
     fontSize: 15,
     textAlign: "center",
