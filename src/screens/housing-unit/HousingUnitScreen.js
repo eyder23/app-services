@@ -9,6 +9,7 @@ import theme from "../../constants/styles/theme.constant";
 import themeStyle from "../../styles/general/theme.style";
 // ======== Components =========
 import SolidButton from "../../components/common/button/SolidButton";
+import MainHousingUnitForm from "../../components/housing-unit/main-housing-unit/MainHousingUnitForm";
 
 // =================================
 
@@ -18,7 +19,7 @@ const HousingUnitScreen = () => {
   // ======== End Definitions =========
   return (
     <SafeAreaView style={[tw`h-full bg-white`, themeStyle.safeAreaWrapper]}>
-      <Text>Llegamos HousingUnitScreen</Text>
+      <MainHousingUnitForm />
     </SafeAreaView>
   );
 };

@@ -24,18 +24,18 @@ export default StyleSheet.create({
   // Init Typography Styles
   titleApp: {
     fontFamily: theme.FONT_BOLD,
-    fontSize: 30,
-    color: theme.PRIMARY_TEXT_COLOR,
+    fontSize: 20,
+    color: theme.PRIMARY,
   },
   pageTitle: {
     fontFamily: theme.FONT_SEMIBOLD,
     color: theme.PRIMARY_TEXT_COLOR,
-    fontSize: 20,
+    fontSize: 16,
   },
   paragraph: {
     fontFamily: theme.FONT_REGULAR,
     color: theme.PRIMARY_TEXT_COLOR,
-    fontSize: 15,
+    fontSize: 14,
   },
   captions: {
     fontFamily: theme.FONT_REGULAR,

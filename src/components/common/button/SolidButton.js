@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: theme.FONT_SEMIBOLD,
-    fontSize: 15,
+    fontSize: 16,
     textAlign: "center",
   },
 });

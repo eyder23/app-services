@@ -4,13 +4,15 @@ import { FontAwesome } from "@expo/vector-icons";
 // import { SafeAreaView } from "react-native";
 // ======== Custom Imports =========
 // ======== Styles =========
+import tw from "../../libs/tailwind/tailwind";
 import theme from "../../constants/styles/theme.constant";
 import themeStyle from "../../styles/general/theme.style";
 // ======== Components =========
 import AccessCodeRequestComponent from "../../components/auth/AccessCodeRequestComponent";
+import BackButton from "../../components/common/button/BackButton";
 // =================================
 
-const AccessCodeRequestScreen = () => {
+const AccessCodeRequestScreen = ({ navigation: { goBack } }) => {
   // ======== Init Definitions =========
   // ======== End Functions =========
 
@@ -20,14 +22,19 @@ const AccessCodeRequestScreen = () => {
     >
       <ScrollView style={[themeStyle.safeAreaWrapper, themeStyle.containerEsp]}>
         <View>
-          <Text style={[themeStyle.pageTitle, { marginTop: 50 }]}>
-            Ingrese a Homely
-          </Text>
-          <Text style={[themeStyle.paragraph, { marginTop: 10 }]}>
+          <View style={{ marginTop: 42 }}>
+            <Text style={[themeStyle.titleApp, tw`text-center bg-transparent`]}>
+              Ingrese a Homely
+            </Text>
+            <BackButton onPress={goBack} disabled={false} />
+          </View>
+
+          <Text style={[themeStyle.paragraph, { marginTop: 30 }]}>
             Nosotros le enviaremos un código de acceso a su número de teléfono a
             través de{"  "}
             <Text style={themeStyle.span}>
-              <FontAwesome name="whatsapp" size={15} color={theme.LIGHT} />{" "}
+              <FontAwesome name="whatsapp" size={15} color={theme.LIGHT} />
+              {""}
               WhatsApp
             </Text>
           </Text>

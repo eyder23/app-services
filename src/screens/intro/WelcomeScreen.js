@@ -18,21 +18,23 @@ const WelcomeScreen = () => {
   // ======== End Definitions =========
   return (
     <SafeAreaView style={[tw`h-full bg-white`, themeStyle.safeAreaWrapper]}>
-      <View style={tw`items-center justify-end flex-1`}>
+      <View style={tw`items-center justify-end flex-1 `}>
         <Image
           source={require("../../../assets/images/welcome/main-image.png")}
         />
       </View>
-      <View style={tw`justify-start flex-1 bg-white`}>
-        <View style={tw`items-center flex-1 `}>
+      <View style={tw`justify-start flex-1 `}>
+        <View style={tw`items-center flex-1 mt-8`}>
           <Text style={[themeStyle.titleApp]}>Homely</Text>
-          <Text style={[themeStyle.pageTitle]}>Expertos en Limpieza</Text>
-          <Text style={[themeStyle.paragraph, tw`mt-4 text-center`]}>
+          <Text style={[themeStyle.pageTitle, tw`mt-3`]}>
+            Expertos en Limpieza
+          </Text>
+          <Text style={[themeStyle.paragraph, tw`mt-8 text-center`]}>
             Contamos con personal especializado y eficiente en servicios de
             limpieza de alta calidad y confianza
           </Text>
         </View>
-        <View style={tw`flex-1 `}>
+        <View style={tw`flex-1 mt-6`}>
           <View style={tw`justify-start flex-1 `}>
             <SolidButton
               text="!Empecemos!"

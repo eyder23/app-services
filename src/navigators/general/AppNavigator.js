@@ -15,14 +15,15 @@ import AccessCodeRequestScreen from "../../screens/auth/AccessCodeRequestScreen"
 import AccessCodeConfirmationScreen from "../../screens/auth/AccessCodeConfirmationScreen";
 import PersonalInformationScreen from "../../screens/identity/PersonalInformationScreen";
 import PersonalAddressScreen from "../../screens/identity/PersonalAddressScreen";
+import HousingUnitScreen from "../../screens/housing-unit/HousingUnitScreen";
 // ======== Screens
 
 const StackNavigator = createNativeStackNavigator();
 
 const Navigator = () => {
   const currentUser = getCurrentUser();
-  console.log("currentUser", currentUser);
- 
+  console.log("currentUser", currentUser?.personalInformation);
+
   return (
     <StackNavigator.Navigator>
       <>
@@ -52,20 +53,33 @@ const Navigator = () => {
           </>
         ) : (
           <>
-            <StackNavigator.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="PersonalInformationScreen"
-              component={PersonalInformationScreen}
-            />
-            <StackNavigator.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="PersonalAddressScreen"
-              component={PersonalAddressScreen}
-            />
+            {currentUser.personalInformation == null && (
+              <StackNavigator.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="PersonalInformationScreen"
+                component={PersonalInformationScreen}
+              />
+            )}
+            {currentUser.personalInformation === 1 && (
+              <StackNavigator.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="PersonalAddressScreen"
+                component={PersonalAddressScreen}
+              />
+            )}
+            {currentUser.personalInformation === 2 && (
+              <StackNavigator.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="HousingUnitScreen"
+                component={HousingUnitScreen}
+              />
+            )}
           </>
         )}
       </>

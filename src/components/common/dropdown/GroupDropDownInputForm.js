@@ -9,12 +9,21 @@ export default function GroupDropDownInputForm({
   setItemsDropDown,
   valueDropdown,
   setValueDropdown,
-  placeholder
+  placeholder,
+  loading,
+  zIndex,
+  zIndexInverse,
+  onSelectItem,
 }) {
   const [open, setOpen] = useState(false);
   return (
     <View style={style}>
       <DropDownPicker
+        onSelectItem={onSelectItem}
+        language="ES"
+        zIndex={zIndex}
+        zIndexInverse={zIndexInverse}
+        loading={loading}
         listMode="SCROLLVIEW"
         itemSeparator={true}
         placeholder={placeholder}

@@ -16,6 +16,7 @@ import { validateDate } from "../../../utils/functions/AppDate";
 import { setCurrentUser } from "../../../store/slices/userSlice";
 import useIdentityClient from "../../../api/client/IdentityClient";
 // ======== Styles =========
+import tw from "../../../libs/tailwind/tailwind";
 import theme from "../../../constants/styles/theme.constant";
 import themeStyle from "../../../styles/general/theme.style";
 // ======== Components =========
@@ -183,14 +184,21 @@ const PersonalInformationForm = () => {
         isValid,
       }) => (
         <View>
-          <Text style={[themeStyle.pageTitle, { marginTop: 50 }]}>
-            Cuentenos
-          </Text>
-          <Text style={[themeStyle.pageTitle]}>acerca de usted</Text>
-          <Text style={[themeStyle.paragraph, { marginTop: 10 }]}>
-            Información personal:
-          </Text>
-          <View style={[{ marginTop: 20 }]}>
+          <View style={{ marginTop: 42 }}>
+            <Text style={[themeStyle.titleApp, tw`text-center bg-transparent`]}>
+              Cuentenos sobre usted
+            </Text>
+
+            <Text
+              style={[
+                themeStyle.pageTitle,
+                { color: theme.ACCENT, marginTop: 40 },
+              ]}
+            >
+              Información personal:
+            </Text>
+          </View>
+          <View style={[{ marginTop: 25 }]}>
             <Text
               style={[themeStyle.captions, { color: theme.PRIMARY_TEXT_COLOR }]}
             >
@@ -386,9 +394,6 @@ const PersonalInformationForm = () => {
                         : { borderColor: theme.GRAY }
                     }
                   />
-                  {touched.businessName && errors.businessName && (
-                    <ErrorText text={errors.businessName} />
-                  )}
                 </View>
               </View>
             </>

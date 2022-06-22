@@ -8,7 +8,7 @@ import themeStyle from "../../styles/general/theme.style";
 import PersonalInformationForm from "../../components/identity/personal-information/PersonalInformationForm";
 // =================================
 
-const PersonalInformationScreen = () => {
+const PersonalInformationScreen = () => { 
   // ======== Init Definitions =========
 
   // ======== End Functions =========
