@@ -168,28 +168,17 @@ const PersonalInformationForm = () => {
       const response = await createAddress(values);
       if (response.success) {
         const _idAddress = response.data._id;
-        const responsePersonUpdate = await updatePerson({
-          _id: currentUser._idPerson,
-          address: _idAddress,
-        });
-        console.log(responsePersonUpdate);
-        if (responsePersonUpdate.success) {
-          setErrorLabel("");
-          setActionLabel(mainButtonLabel);
-          setActionProcess(false);
-          dispatch(
-            setCurrentUser(
-              getUserToUpdate(currentUser, {
-                personalInformation: 2,
-              })
-            )
-          );
-        } else {
-          const { code, messageDeveloper, messageUser } = response.apiError;
-          setErrorLabel(messageUser);
-          setActionProcess(false);
-          setActionLabel(mainButtonLabel);
-        }
+        setErrorLabel("");
+        setActionLabel(mainButtonLabel);
+        setActionProcess(false);
+        dispatch(
+          setCurrentUser(
+            getUserToUpdate(currentUser, {
+              personalInformation: 2,
+              _idAddress: _idAddress,
+            })
+          )
+        );
       } else {
         const { code, messageDeveloper, messageUser } = response.apiError;
         setErrorLabel(messageUser);
@@ -364,7 +353,16 @@ const PersonalInformationForm = () => {
               onPress={handleSubmit}
               disabled={!isValid || actionProcess}
             />
-            <LogOutButton text="Cerrar Sesión" />
+            <Text
+              style={[
+                themeStyle.captions,
+                { color: theme.GRAY },
+                tw`text-center`,
+              ]}
+            >
+              Recuerde que luego puede editar la dirección donde desea recibir
+              los servicios
+            </Text>
           </View>
           <View style={{ height: 40, backgroundColor: theme.WHITE }}></View>
         </View>
@@ -374,29 +372,3 @@ const PersonalInformationForm = () => {
 };
 
 export default PersonalInformationForm;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: StatusBar.currentHeight,
-  },
-  scrollView: {
-    backgroundColor: "pink",
-    marginHorizontal: 20,
-  },
-  text: {
-    fontSize: 42,
-  },
-  input: {
-    flex: 1,
-    height: 50,
-    fontSize: 16,
-    fontFamily: theme.FONT_REGULAR,
-    color: theme.PRIMARY_TEXT_COLOR,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: theme.GRAY,
-  },
-});

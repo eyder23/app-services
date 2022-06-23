@@ -1,34 +1,27 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
 // ======== Custom Imports =========
 // ======== Styles =========
-import tw from "../../libs/tailwind/tailwind";
 import theme from "../../constants/styles/theme.constant";
 import themeStyle from "../../styles/general/theme.style";
 // ======== Components =========
-import SolidButton from "../../components/common/button/SolidButton";
-import MainHousingUnitForm from "../../components/housing-unit/main-housing-unit/MainHousingUnitForm";
-
+import PersonalAddressForm from "../../components/identity/personal-address/PersonalAddressForm";
+import MainHousingUnitComponent from "../../components/housing-unit/main-housing-unit/MainHousingUnitComponent";
 // =================================
 
-const HousingUnitScreen = () => {
+const PersonalAddressScreen = () => {
   // ======== Init Definitions =========
-  const navigation = useNavigation();
-  // ======== End Definitions =========
+
+  // ======== End Functions =========
   return (
-    <SafeAreaView style={[tw`h-full bg-white`, themeStyle.safeAreaWrapper]}>
-      <MainHousingUnitForm />
+    <SafeAreaView
+      style={[themeStyle.container, { backgroundColor: theme.PRIMARY }]}
+    >
+      <ScrollView style={[themeStyle.safeAreaWrapper, themeStyle.containerEsp]}>
+        <MainHousingUnitComponent />
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default HousingUnitScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "red",
-  },
-});
+export default PersonalAddressScreen;

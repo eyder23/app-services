@@ -16,6 +16,7 @@ import AccessCodeConfirmationScreen from "../../screens/auth/AccessCodeConfirmat
 import PersonalInformationScreen from "../../screens/identity/PersonalInformationScreen";
 import PersonalAddressScreen from "../../screens/identity/PersonalAddressScreen";
 import HousingUnitScreen from "../../screens/housing-unit/HousingUnitScreen";
+import HomeScreen from "../../screens/main/HomeScreen";
 // ======== Screens
 
 const StackNavigator = createNativeStackNavigator();
@@ -78,6 +79,15 @@ const Navigator = () => {
                 }}
                 name="HousingUnitScreen"
                 component={HousingUnitScreen}
+              />
+            )}
+            {currentUser.personalInformation === 3 && (
+              <StackNavigator.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="HomeScreen"
+                component={HomeScreen}
               />
             )}
           </>

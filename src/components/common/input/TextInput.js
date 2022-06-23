@@ -18,9 +18,15 @@ export default function TextInputForm({
   editable,
   defaultValue,
   returnKeyType,
+  multiline,
+  numberOfLines,
+  blurOnSubmit,
 }) {
   return (
     <TextInput
+      blurOnSubmit={blurOnSubmit}
+      multiline={multiline}
+      numberOfLines={numberOfLines}
       autoCapitalize={autoCapitalize}
       name={name}
       placeholder={placeholder}

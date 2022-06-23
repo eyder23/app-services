@@ -19,7 +19,7 @@ const PersonalAddressScreen = () => {
       <ScrollView style={[themeStyle.safeAreaWrapper, themeStyle.containerEsp]}>
         <PersonalAddressForm />
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaView> 
   );
 }; 
 

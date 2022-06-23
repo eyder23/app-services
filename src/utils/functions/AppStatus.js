@@ -19,6 +19,10 @@ export function getUserToUpdate(currentUser, user) {
   const defUser = {
     _idPerson:
       user?._idPerson === undefined ? currentUser._idPerson : user?._idPerson,
+    _idAddress:
+      user?._idAddress === undefined
+        ? currentUser._idAddress
+        : user?._idAddress,
     displayName:
       user?.displayName === undefined
         ? currentUser?.displayName

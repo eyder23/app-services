@@ -8,11 +8,12 @@ import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../../store/slices/userSlice";
 // =================================
 
-export default function LogOutButton({ text }) {
+export default function LogOutButton({ text, style }) {
   const dispatch = useDispatch();
 
   return (
     <TouchableOpacity
+      style={style}
       onPress={() => {
         dispatch(setCurrentUser(null));
       }}

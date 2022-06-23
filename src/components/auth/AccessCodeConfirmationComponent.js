@@ -12,6 +12,7 @@ import {
 // ======== Services ===============
 import { setCurrentUser } from "../../store/slices/userSlice";
 import useUser from "../../api/client/AccessControlClient";
+import useIdentityClient from "../../api/client/IdentityClient";
 // ======== Styles =========
 import theme from "../../constants/styles/theme.constant";
 // ======== Components =========
@@ -24,9 +25,10 @@ import ErrorText from "../../components/common/text/ErrorText";
 const AccessCodeConfirmationComponent = ({ userIn }) => {
   // ======== Init Definitions =========
   const dispatch = useDispatch();
-   const currentUser = getCurrentUser();
+  const currentUser = getCurrentUser();
   const { validateCodeAuth, userLoginWithCustomToken, getUserByUid } =
     useUser();
+  const { getPersonById } = useIdentityClient();
   const [genCode, setGenCode] = useState("");
   const [actionProcess, setActionProcess] = useState(false);
   const [actionLabel, setActionLabel] = useState("Validar");
@@ -73,8 +75,27 @@ const AccessCodeConfirmationComponent = ({ userIn }) => {
             let name = null;
             let email = null;
             let _idPerson = null;
+            let personalInformation = null;
             if (respUser && respUser.success && respUser.data) {
               _idPerson = respUser?.data?.person;
+              const personResponse = await getPersonById(_idPerson);
+              console.log(personResponse);
+              if (
+                personResponse &&
+                personResponse.success &&
+                personResponse.data
+              ) {
+                const person = personResponse.data;
+                if (typeof person.documentType !== "undefined") {
+                  console.log("ya tenemos la informacion personal");
+                  personalInformation = 1;
+                }
+                if (typeof person.mainHousingUnit !== "undefined") {
+                  console.log("ya tenemos unidad de vivienda asociada");
+                  personalInformation = 3;
+                }
+              }
+
               if (
                 typeof respUser.data.name !== "undefined" &&
                 typeof respUser.data.email !== "undefined"
@@ -105,6 +126,7 @@ const AccessCodeConfirmationComponent = ({ userIn }) => {
                   hasPersonalDataCompleted: hasPersonalDataCompleted,
                   countryCodePhoneNumber: userIn.countryCodePhoneNumber,
                   phoneNumber: userIn.phoneNumber,
+                  personalInformation: personalInformation,
                 })
               )
             );

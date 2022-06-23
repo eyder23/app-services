@@ -436,7 +436,15 @@ const PersonalInformationForm = () => {
               onPress={handleSubmit}
               disabled={!isValid || actionProcess}
             />
-            <LogOutButton text="Cerrar Sesión" />
+            <Text
+              style={[
+                themeStyle.captions,
+                { color: theme.GRAY },
+                tw`text-center`,
+              ]}
+            >
+              ¡Para nosotros es muy importante conocerte!
+            </Text>
           </View>
           <View style={{ height: 40, backgroundColor: theme.WHITE }}></View>
         </View>
