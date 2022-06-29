@@ -22,7 +22,7 @@ import SolidButton from "../../components/common/button/SolidButton";
 import ErrorText from "../../components/common/text/ErrorText";
 // =================================
 
-const AccessCodeConfirmationComponent = ({ userIn }) => {
+const AccessCodeConfirmationComponent = ({ userIn, handleActionProcess }) => {
   // ======== Init Definitions =========
   const dispatch = useDispatch();
   const currentUser = getCurrentUser();
@@ -37,6 +37,10 @@ const AccessCodeConfirmationComponent = ({ userIn }) => {
   // ======== End Definitions =========
 
   // ======== Init Functions =========
+  useEffect(() => {
+    handleActionProcess(actionProcess);
+  }, [actionProcess]);
+
   const handlePressKeyPadButton = (key) => {
     if (genCode.length < 6) {
       setGenCode(genCode + key);
@@ -59,6 +63,7 @@ const AccessCodeConfirmationComponent = ({ userIn }) => {
           platformOS: Platform.OS,
         };
         const response = await validateCodeAuth(user);
+        // console.log(response);
         if (response.success) {
           const initialToken = response.data;
           const respLogin = await userLoginWithCustomToken(initialToken);
@@ -95,7 +100,6 @@ const AccessCodeConfirmationComponent = ({ userIn }) => {
                   personalInformation = 3;
                 }
               }
-
               if (
                 typeof respUser.data.name !== "undefined" &&
                 typeof respUser.data.email !== "undefined"

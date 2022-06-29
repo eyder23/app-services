@@ -60,7 +60,7 @@ const businessInformationValidationSchema = yup.object().shape({
 const mainButtonLabel = "Siguiente";
 // ======================================
 
-const PersonalInformationForm = () => {
+const PersonalInformationForm = ({ handleActionProcess }) => {
   // ======== Init Definitions =========
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -153,6 +153,9 @@ const PersonalInformationForm = () => {
   useEffect(() => {
     setActionProcess(false);
   }, []);
+  useEffect(() => {
+    handleActionProcess(actionProcess);
+  }, [actionProcess]);
 
   // ======== End Functions =========
   return (

@@ -6,19 +6,24 @@ import theme from "../../constants/styles/theme.constant";
 import themeStyle from "../../styles/general/theme.style";
 // ======== Components =========
 import PersonalInformationForm from "../../components/identity/personal-information/PersonalInformationForm";
+import { Loading } from "../../components/common/activity-indicator/Loading";
 // =================================
 
-const PersonalInformationScreen = () => { 
+const PersonalInformationScreen = () => {
   // ======== Init Definitions =========
-
-  // ======== End Functions =========
+  // ======== Init Functions =========
+  const [actionProcess, setActionProcess] = useState(false);
+  const handleActionProcess = (value) => {
+    setActionProcess(value);
+  };
 
   return (
     <SafeAreaView
       style={[themeStyle.container, { backgroundColor: theme.PRIMARY }]}
     >
       <ScrollView style={[themeStyle.safeAreaWrapper, themeStyle.containerEsp]}>
-        <PersonalInformationForm />
+        <PersonalInformationForm handleActionProcess={handleActionProcess} />
+        {actionProcess && <Loading />}
       </ScrollView>
     </SafeAreaView>
   );

@@ -38,7 +38,7 @@ import ErrorText from "../../common/text/ErrorText";
 const mainButtonLabel = "Enviar";
 // ======================================
 
-const FamilyApartmentHouseForm = () => {
+const FamilyApartmentHouseForm = ({ handleActionProcessInside }) => {
   // ======== Init Definitions =========
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -54,6 +54,9 @@ const FamilyApartmentHouseForm = () => {
   useEffect(() => {
     setActionProcess(false);
   }, []);
+  useEffect(() => {
+    handleActionProcessInside(actionProcess);
+  }, [actionProcess]);
 
   const handleSubmit = async (values) => {
     setErrorLabel("");

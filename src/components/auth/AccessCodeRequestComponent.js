@@ -17,7 +17,7 @@ import KeyPadButtonIcon from "../../components/common/button/KeyPadButtonIcon";
 import SolidButton from "../../components/common/button/SolidButton";
 import ErrorText from "../../components/common/text/ErrorText";
 
-const AccessCodeRequestComponent = () => {
+const AccessCodeRequestComponent = ({ handleActionProcess }) => {
   // ======== Init Definitions =========
   const navigation = useNavigation();
   const { generateCodeAuth } = useUser();
@@ -28,6 +28,10 @@ const AccessCodeRequestComponent = () => {
   // ======== End Definitions =========
 
   // ======== Init Functions =========
+  useEffect(() => {
+    handleActionProcess(actionProcess);
+  }, [actionProcess]);
+
   const handlePressKeyPadButton = (key) => {
     if (phoneNumber.length < 10) {
       setPhoneNumber(phoneNumber + key);

@@ -43,7 +43,7 @@ let selectStateLabel = "Seleccione un Departamento";
 let selectCityLabel = "Seleccione una Ciudad";
 // ======================================
 
-const PersonalInformationForm = () => {
+const PersonalInformationForm = ({ handleActionProcess }) => {
   // ======== Init Definitions =========
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -68,10 +68,12 @@ const PersonalInformationForm = () => {
   // ======== End Definitions =========
 
   // ======== Init Functions =========
-
   useEffect(() => {
     setActionProcess(false);
   }, []);
+  useEffect(() => {
+    handleActionProcess(actionProcess);
+  }, [actionProcess]);
 
   useEffect(() => {
     const getCountryByCodeStateFunction = async () => {

@@ -45,7 +45,7 @@ const residentialComplexValidationSchema = yup.object().shape({
 const mainButtonLabel = "Enviar";
 // ======================================
 
-const ResidentialComplexForm = () => {
+const ResidentialComplexForm = ({ handleActionProcessInside }) => {
   // ======== Init Definitions =========
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -61,6 +61,9 @@ const ResidentialComplexForm = () => {
   useEffect(() => {
     setActionProcess(false);
   }, []);
+  useEffect(() => {
+    handleActionProcessInside(actionProcess);
+  }, [actionProcess]);
 
   const handleSubmit = async (values) => {
     setErrorLabel("");

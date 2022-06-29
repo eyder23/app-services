@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, SafeAreaView, ScrollView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 // import { SafeAreaView } from "react-native";
@@ -10,10 +10,15 @@ import themeStyle from "../../styles/general/theme.style";
 // ======== Components =========
 import AccessCodeRequestComponent from "../../components/auth/AccessCodeRequestComponent";
 import BackButton from "../../components/common/button/BackButton";
+import { Loading } from "../../components/common/activity-indicator/Loading";
 // =================================
 
 const AccessCodeRequestScreen = ({ navigation: { goBack } }) => {
   // ======== Init Definitions =========
+  const [actionProcess, setActionProcess] = useState(false);
+  const handleActionProcess = (value) => {
+    setActionProcess(value);
+  };
   // ======== End Functions =========
 
   return (
@@ -39,7 +44,7 @@ const AccessCodeRequestScreen = ({ navigation: { goBack } }) => {
             </Text>
           </Text>
         </View>
-        <AccessCodeRequestComponent />
+        <AccessCodeRequestComponent handleActionProcess={handleActionProcess} />
         <View>
           <Text style={[themeStyle.captions]}>
             Al crear una cuenta recuerde que acepta nuestros{" "}
@@ -53,6 +58,7 @@ const AccessCodeRequestScreen = ({ navigation: { goBack } }) => {
           </Text>
         </View>
         <View style={{ height: 40, backgroundColor: theme.WHITE }}></View>
+        {actionProcess && <Loading />}
       </ScrollView>
     </SafeAreaView>
   );

@@ -13,7 +13,7 @@ import FamilyApartmentHouseForm from "./FamilyApartmentHouseForm";
 import TextInput from "../../common/input/TextInput";
 // ======================================
 
-const MainHousingUnitForm = () => {
+const MainHousingUnitForm = ({ handleActionProcess }) => {
   // ======== Init Definitions =========
   const [residentialComplexActive, setResidentialComplexActive] =
     useState(true);
@@ -24,7 +24,9 @@ const MainHousingUnitForm = () => {
   // ======== End Definitions =========
 
   // ======== Init Functions =========
-
+  const handleActionProcessInside = (value) => {
+    handleActionProcess(value);
+  };
   // ======== End Functions =========
   return (
     <View>
@@ -123,8 +125,16 @@ const MainHousingUnitForm = () => {
             </TouchableOpacity>
           </View>
           <View>
-            {residentialComplexActive && <ResidentialComplexForm />}
-            {familyApartmentHouseActive && <FamilyApartmentHouseForm />}
+            {residentialComplexActive && (
+              <ResidentialComplexForm
+                handleActionProcessInside={handleActionProcessInside}
+              />
+            )}
+            {familyApartmentHouseActive && (
+              <FamilyApartmentHouseForm
+                handleActionProcessInside={handleActionProcessInside}
+              />
+            )}
           </View>
         </View>
       </View>

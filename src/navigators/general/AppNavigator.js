@@ -9,91 +9,55 @@ import { useSelector } from "react-redux";
 // ======== Custom Imports =========
 // ======== Functions ===============
 import { getCurrentUser } from "../../utils/functions/AppStatus";
-// ======== Screens
-import WelcomeScreen from "../../screens/intro/WelcomeScreen";
-import AccessCodeRequestScreen from "../../screens/auth/AccessCodeRequestScreen";
-import AccessCodeConfirmationScreen from "../../screens/auth/AccessCodeConfirmationScreen";
-import PersonalInformationScreen from "../../screens/identity/PersonalInformationScreen";
-import PersonalAddressScreen from "../../screens/identity/PersonalAddressScreen";
-import HousingUnitScreen from "../../screens/housing-unit/HousingUnitScreen";
-import HomeScreen from "../../screens/main/HomeScreen";
-// ======== Screens
+// ======== Custom Stack Navigators ========
+import AuthNavigator from "../auth/AuthNavigator";
+import IdentityNavigator from "../identity/IdentityNavigator";
+import MainNavigator from "../main/MainNavigator";
 
-const StackNavigator = createNativeStackNavigator();
+
+const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   const currentUser = getCurrentUser();
   console.log("currentUser", currentUser?.personalInformation);
 
   return (
-    <StackNavigator.Navigator>
+    <Stack.Navigator>
       <>
         {currentUser == null ? (
-          <>
-            <StackNavigator.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="WelcomeScreen"
-              component={WelcomeScreen}
-            />
-            <StackNavigator.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="AccessCodeRequestScreen"
-              component={AccessCodeRequestScreen}
-            />
-            <StackNavigator.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="AccessCodeConfirmationScreen"
-              component={AccessCodeConfirmationScreen}
-            />
-          </>
+          <Stack.Screen
+            name="AuthNavigator"
+            component={AuthNavigator}
+            options={{
+              headerShown: false,
+            }}
+          />
         ) : (
           <>
-            {currentUser.personalInformation == null && (
-              <StackNavigator.Screen
+            {(currentUser.personalInformation === null ||
+              currentUser.personalInformation === 1 ||
+              currentUser.personalInformation === 2) && (
+              <Stack.Screen
+                name="IdentityNavigator"
+                component={IdentityNavigator}
                 options={{
                   headerShown: false,
                 }}
-                name="PersonalInformationScreen"
-                component={PersonalInformationScreen}
-              />
-            )}
-            {currentUser.personalInformation === 1 && (
-              <StackNavigator.Screen
-                options={{
-                  headerShown: false,
-                }}
-                name="PersonalAddressScreen"
-                component={PersonalAddressScreen}
-              />
-            )}
-            {currentUser.personalInformation === 2 && (
-              <StackNavigator.Screen
-                options={{
-                  headerShown: false,
-                }}
-                name="HousingUnitScreen"
-                component={HousingUnitScreen}
               />
             )}
             {currentUser.personalInformation === 3 && (
-              <StackNavigator.Screen
+              <Stack.Screen
+                name="MainNavigator"
+                component={MainNavigator}
                 options={{
                   headerShown: false,
                 }}
-                name="HomeScreen"
-                component={HomeScreen}
               />
             )}
           </>
         )}
       </>
-    </StackNavigator.Navigator>
+    </Stack.Navigator>
   );
 };
 

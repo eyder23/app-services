@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,6 +16,7 @@ import themeStyle from "../../styles/general/theme.style";
 // ======== Components =========
 import AccessCodeConfirmationComponent from "../../components/auth/AccessCodeConfirmationComponent";
 import BackButton from "../../components/common/button/BackButton";
+import { Loading } from "../../components/common/activity-indicator/Loading";
 // =================================
 
 const AccessCodeConfirmationScreen = ({ route, navigation: { goBack } }) => {
@@ -25,6 +26,12 @@ const AccessCodeConfirmationScreen = ({ route, navigation: { goBack } }) => {
     userIn = route.params.user;
   }
   // ======== End Definitions =========
+  // ======== Init Functions =========
+  const [actionProcess, setActionProcess] = useState(false);
+  const handleActionProcess = (value) => {
+    setActionProcess(value);
+  };
+  // ======== End Functions =========
 
   return (
     <SafeAreaView
@@ -53,7 +60,10 @@ const AccessCodeConfirmationScreen = ({ route, navigation: { goBack } }) => {
             </Text>
           </Text>
         </View>
-        <AccessCodeConfirmationComponent userIn={userIn} />
+        <AccessCodeConfirmationComponent
+          userIn={userIn}
+          handleActionProcess={handleActionProcess}
+        />
         <View>
           <Text style={[themeStyle.captions]}>
             Al crear una cuenta recuerde que acepta nuestros{" "}
@@ -67,6 +77,7 @@ const AccessCodeConfirmationScreen = ({ route, navigation: { goBack } }) => {
           </Text>
         </View>
         <View style={{ height: 40, backgroundColor: theme.WHITE }}></View>
+        {actionProcess && <Loading />}
       </ScrollView>
     </SafeAreaView>
   );

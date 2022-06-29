@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 // ======== Custom Imports =========
@@ -19,31 +21,43 @@ import SolidButton from "../../components/common/button/SolidButton";
 import LogOutButton from "../../components/common/button/LogOutButton";
 
 // =================================
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const HomeScreen = () => {
   // ======== Init Definitions =========
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   // ======== End Definitions =========
   return (
     <SafeAreaView
       style={[themeStyle.container, { backgroundColor: theme.WHITE }]}
     >
-      <ScrollView style={[themeStyle.safeAreaWrapper]}>
+      <ScrollView
+        style={[themeStyle.safeAreaWrapper]}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[theme.ACCENT]}
+            progressBackgroundColor={theme.PRIMARY}
+          />
+        }
+      >
         <Text style={[themeStyle.titleApp]}>Homely</Text>
         <Text style={[themeStyle.pageTitle, tw`mt-3`]}>
           Expertos en Limpieza
         </Text>
-        <LogOutButton text="Cerrar Sesión" style={[tw`mt-5`]} />
+        <LogOutButton text={"Cerrar sesión"} style={[tw`mt-5`]} />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "red",
-  },
-});
