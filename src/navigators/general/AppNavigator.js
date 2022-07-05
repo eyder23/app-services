@@ -14,6 +14,10 @@ import { getCurrentUser } from "../../utils/functions/AppStatus";
 import AuthNavigator from "../auth/AuthNavigator";
 import IdentityNavigator from "../identity/IdentityNavigator";
 import MainNavigator from "../main/MainNavigator";
+import DrawerNavigator from "../main/DrawerNavigator";
+
+import BottomTabNavigator from "../../../navigation/TabNavigator";
+// import DrawerNavigator from "../../../navigation/DrawerNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,8 +51,8 @@ const Navigator = () => {
             )}
             {currentUser.personalInformation === 3 && (
               <Stack.Screen
-                name="MainNavigator"
-                component={MainNavigator}
+                name="DrawerNavigator"
+                component={DrawerNavigator}
                 options={{
                   headerShown: false,
                 }}
