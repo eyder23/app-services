@@ -65,4 +65,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "red",
   },
+  stretch: {
+    width: 50,
+    height: 200,
+    resizeMode: "stretch",
+  },
 });

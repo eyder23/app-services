@@ -37,7 +37,7 @@ const Tab = createBottomTabNavigator();
 export default function MainNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="HomeScreen"
       screenOptions={{
         tabBarActiveTintColor: theme.ACCENT,
         headerShown: false,
