@@ -20,6 +20,7 @@ const WelcomeScreen = () => {
     <SafeAreaView style={[tw`h-full bg-white`, themeStyle.safeAreaWrapper]}>
       <View style={tw`items-center justify-end flex-1 `}>
         <Image
+          style={styles.stretch}
           source={require("../../../assets/images/welcome/main-image.png")}
         />
       </View>
@@ -64,5 +65,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "red",
+  },
+  stretch: {
+    width: 50,
+    height: 200,
+    resizeMode: "stretch",
   },
 });
