@@ -1,11 +1,8 @@
 import React from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useSelector } from "react-redux";
 
 // ======== Custom Imports =========
 // ======== Functions ===============
@@ -13,11 +10,8 @@ import { getCurrentUser } from "../../utils/functions/AppStatus";
 // ======== Custom Stack Navigators ========
 import AuthNavigator from "../auth/AuthNavigator";
 import IdentityNavigator from "../identity/IdentityNavigator";
-import MainNavigator from "../main/MainNavigator";
 import DrawerNavigator from "../main/DrawerNavigator";
 
-import BottomTabNavigator from "../../../navigation/TabNavigator";
-// import DrawerNavigator from "../../../navigation/DrawerNavigator";
 
 const Stack = createNativeStackNavigator();
 

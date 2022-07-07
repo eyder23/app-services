@@ -13,6 +13,7 @@ const screenOptionStyle = {
   },
   headerTintColor: "white",
   headerBackTitle: "Back",
+  headerShown: false,
 };
 
 const MainStackNavigator = () => {
