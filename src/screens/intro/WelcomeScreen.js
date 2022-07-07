@@ -20,7 +20,7 @@ const WelcomeScreen = () => {
     <SafeAreaView style={[tw`h-full bg-white`, themeStyle.safeAreaWrapper]}>
       <View style={tw`items-center justify-end flex-1 `}>
         <Image
-          source={require("../../../assets/images/welcome/main-image.png")}
+          source={require("../../../assets/images/welcome/main-image2.png")}
         />
       </View>
       <View style={tw`justify-start flex-1 `}>
